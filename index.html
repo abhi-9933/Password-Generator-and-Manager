@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Random Password Generator</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400..900&family=Exo+2:ital,wght@0,100..900;1,100..900&family=Fjalla+One&display=swap"
+    rel="stylesheet"
+  />
+  <style>
+     @import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900&display=swap');
+
+    * {
+      font-family: "Poppins", serif;
+  font-weight: 200;
+  font-style: normal;
+      box-sizing: border-box;
+    }
+
+    body {
+      background-color: #E0F7FA;
+      color: #FFFFFF;
+    }
+
+    .container {
+      margin: 12%;
+      width: 90%;
+      max-width: 700px;
+    }
+
+    .display {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      width: 100%;
+      margin-top: 50px;
+      margin-bottom: 22px;
+      background: #fff;
+      color: #333;
+      padding: 26px 20px;
+      border-radius: 5px;
+    }
+
+    .h1 {
+      color: #008080;
+      font-weight: 350;
+      font-size: 45px;
+    }
+
+    .random {
+      color: #008080;
+      border-bottom: 4px solid #008080;
+      padding-bottom: 7px;
+    }
+
+    .img {
+      color: #FF7F50;
+      width: 30px;
+      cursor: pointer;
+    }
+
+    #password {
+      border: 0;
+      outline: 0;
+      font-size: 24px;
+    }
+
+    .button-container {
+      display: flex;
+      justify-content: flex-end;
+      /* Align both buttons to the right */
+      gap: 126px;
+      /* Add space between the buttons */
+      margin-top: 20px;
+    }
+
+    .btnImg {
+      width: 28px;
+      margin-right: -5px;
+    }
+
+    .btn1Img {
+      width: 50px;
+      margin-right: 1px;
+
+    }
+
+    .btn,
+    .btn1 {
+      display: flex;
+      align-items: center;
+      justify-content: space-around;
+      text-decoration: none;
+      padding: 16px 26px;
+      border-radius: 10px;
+      border: 0;
+      outline: 0;
+      background: #FF7F50;
+      color: #fff;
+      font-size: 22px;
+      font-weight: 350;
+      cursor: pointer;
+
+    }
+
+    .btn:hover,
+    .btn1:hover {
+      background: #FF6347;
+      /* Changes background color */
+      transform: scale(1.05);
+      /* Increases size by 5% */
+      transition: transform 0.3s ease;
+      /* Smooth transition */
+
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <h1 class="h1">
+      Generate a <br /><span class="random">Random Password</span>
+    </h1>
+    <div class="display">
+      <input type="text" id="password" placeholder="Password" />
+      <img src="copy.png" alt="" class="img" onclick="copyPassword()" />
+    </div>
+    <div class="button-container">
+      <button class="btn" id="generateBtn" onclick="createPassword()">
+        <img src="generate.png" alt="" class="btnImg" />Generate Password
+      </button>
+      <button class="btn1" onclick="managePassword()">
+
+        <img src="manage.png" alt="" class="btn1Img" />Manage Password
+      </button>
+
+      </button>
+    </div>
+  </div>
+
+  <script>
+    const pass = document.getElementById("password");
+    const length = 12;
+    const upperCase = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    const lowerCase = "abcdefghijklmnopqrstuvwxyz";
+    const numbers = "0123456789";
+    const symbol = "!@#$%^&*()_+=-{}[]|;:,.<>/?";
+    const all = upperCase + lowerCase + numbers + symbol;
+
+    function createPassword() {
+      let password = "";
+      password += upperCase[Math.floor(Math.random() * upperCase.length)];
+      password += lowerCase[Math.floor(Math.random() * lowerCase.length)];
+      password += numbers[Math.floor(Math.random() * numbers.length)];
+      password += symbol[Math.floor(Math.random() * symbol.length)];
+      while (length > password.length) {
+        password += all[Math.floor(Math.random() * all.length)];
+      }
+      pass.value = password;
+      savePassword(password);  // Save to local storage
+    }
+    function savePassword(password) {
+      let passwords = JSON.parse(localStorage.getItem("passwords")) || [];  // Get existing passwords or create an empty array
+      passwords.push(password);  // Add new password to the array
+      localStorage.setItem("passwords", JSON.stringify(passwords));  // Save updated array back to local storage
+    }
+
+    function copyPassword() {
+      pass.select();
+      document.execCommand("copy");
+      alert("Password copied to clipboard!");
+      pass.value = "";
+    }
+    function managePassword() {
+      window.location.href = "password-manager.html"; // Redirect to password manager
+    }
+
+
+
+  </script>
+</body>
+
+</html>
